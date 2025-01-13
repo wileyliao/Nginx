@@ -2,6 +2,9 @@
 nginx on docker(include SSL)
 
 ## SSL
+>- Decode pfx file see `pfx2pem.py`
+>- Combine cert.crt & ca_bundle.crt to one file
+`Get-Content cert.crt, ca_bundle.crt | Out-File -Encoding ascii full_chain.crt`
 >- Dockerfile
 ```
 FROM nginx:alpine
@@ -9,10 +12,15 @@ FROM nginx:alpine
 # 複製 NGINX 配置文件
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# 複製 SSL 憑證文件
-COPY cert.crt /etc/nginx/ssl/cert.crt
-COPY cert.key /etc/nginx/ssl/cert.key
-COPY ca_bundle.crt /etc/nginx/ssl/ca_bundle.crt
+# 建立證書目錄
+RUN mkdir -p /etc/nginx/ssl
+
+# 複製 SSL 證書文件
+COPY full_chain.crt /etc/nginx/ssl/
+COPY cert.key /etc/nginx/ssl/
+
+# 設置證書文件權限
+RUN chmod 600 /etc/nginx/ssl/*
 
 # 暴露 HTTPS 端口
 EXPOSE 3003
@@ -25,11 +33,10 @@ CMD ["nginx", "-g", "daemon off;"]
 ```
 server {
     listen 3003 ssl;
-    server_name kutech.tw;
-
-    ssl_certificate /etc/nginx/ssl/cert.crt;
+    server_name www.kutech.tw;
+    
+    ssl_certificate /etc/nginx/ssl/full_chain.crt;
     ssl_certificate_key /etc/nginx/ssl/cert.key;
-    ssl_trusted_certificate /etc/nginx/ssl/ca_bundle.crt;
 
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers HIGH:!aNULL:!MD5;
