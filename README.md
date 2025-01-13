@@ -51,7 +51,7 @@ server {
 }
 ```
 
-## NORMAL
+## NORMAL(no need SSL)
 >- Dockerfile
 ```
 FROM nginx:alpine
