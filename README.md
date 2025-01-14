@@ -6,7 +6,8 @@ nginx on docker(include SSL) </br>
 
 
 ## SSL
->- Decode pfx file see `pfx2pem.py`
+>- Decode pfx file see `pfx2pem.py` </br>
+note: cert & ca_bundle need to combine while using nginx
 >- Combine cert.crt & ca_bundle.crt to one file </br>
 `Get-Content cert.crt, ca_bundle.crt | Out-File -Encoding ascii full_chain.crt`
 >- Dockerfile
