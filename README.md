@@ -1,5 +1,9 @@
 # Nginx
-nginx on docker(include SSL)
+nginx on docker(include SSL) </br>
+
+`docker build -t ai_ssl_nginx .` </br>
+`docker run --name ai_ssl_nginx --net ai_ssl -p 3003:3003 ai_ssl_nginx:latest`
+
 
 ## SSL
 >- Decode pfx file see `pfx2pem.py`
