@@ -28,7 +28,7 @@ COPY cert.key /etc/nginx/ssl/
 RUN chmod 600 /etc/nginx/ssl/*
 
 # 暴露 HTTPS 端口
-EXPOSE 3003
+EXPOSE 3000
 
 # 啟動 NGINX
 CMD ["nginx", "-g", "daemon off;"]
@@ -37,7 +37,7 @@ CMD ["nginx", "-g", "daemon off;"]
 >- nginx.conf
 ```
 server {
-    listen 3003 ssl;
+    listen 3000 ssl;
     server_name www.kutech.tw;
     
     ssl_certificate /etc/nginx/ssl/full_chain.crt;
@@ -61,14 +61,14 @@ server {
 ```
 FROM nginx:alpine
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-EXPOSE 3000
+EXPOSE 3003
 CMD ["nginx", "-g", "daemon off;"]
 ```
 
 >- nginx.conf
 ```
 server {
-    listen 3000;
+    listen 3003;
 
     location /gpu_status {
         proxy_pass http://gpu_status:3001/gpu_status;
