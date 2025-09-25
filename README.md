@@ -1,5 +1,7 @@
 # Nginx
 nginx on docker(include SSL) </br>
+reload command:
+`docker exec -it nginx_container_name nginx -s reload `
 
 ## SSL
 >- Decode pfx file see `pfx2pem.py` </br>
